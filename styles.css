@@ -1,3 +1,534 @@
-@import url('/base.css');
-/* Production QA: preserve photographic fidelity and simplify compositor work. */
-.site-noise{display:none!important}.portrait img{filter:none!important;image-rendering:auto}.envelope{filter:none!important;will-change:transform}.envelope-stage{filter:drop-shadow(0 24px 30px rgba(0,0,0,.34))}.envelope__flap--top,.envelope__card,.wax-seal{will-change:transform,opacity;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-style:preserve-3d}.envelope__flap--top{transition:transform .82s cubic-bezier(.2,.75,.2,1) .08s}.envelope__card{transition:transform 1.02s cubic-bezier(.16,1,.3,1) .54s}.wax-seal{transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .28s ease}body.is-open .envelope__flap--top{transform:rotateX(176deg) translateZ(3px);filter:none}body.is-open .envelope__card{transform:translateY(-58%) translateZ(5px)}.venue__art{width:100%;left:0;max-height:none;overflow:visible}.venue__art::after{display:none}.venue__art img{width:100%;opacity:.95;mix-blend-mode:multiply;filter:contrast(1.45) brightness(.72)}.reveal{transition:opacity .72s ease,transform .82s cubic-bezier(.16,1,.3,1);transform:translateY(14px)}@media(prefers-reduced-motion:no-preference){.opening,.invitation{transform:translateZ(0)}}
+/* ============================================================
+   Gianna & Nathan — Save the Date
+   A single-theme design: an engraved plate on black-tie ground.
+   Palette drawn from Villa Siena itself — whitewashed stucco,
+   terracotta walk, wrought iron, bougainvillea.
+   ============================================================ */
+
+/* Fonts are self-hosted rather than pulled from Google. Guests open this on
+   hotel wifi and in-app browsers; a third-party font request is one more thing
+   that can hang, flash unstyled text, or be blocked outright. Subset to the
+   glyphs this page actually uses: 28 KB for all four faces. */
+
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("/assets/fonts/bodoni-moda-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/cormorant-300.woff2") format("woff2");
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/assets/fonts/cormorant-300-italic.woff2") format("woff2");
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Jost";
+  src: url("/assets/fonts/jost-300.woff2") format("woff2");
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+
+:root {
+  --ink:        #14110e;   /* black-tie ground, warm not blue */
+  --ink-soft:   #1d1915;
+  --paper:      #efe9dd;   /* letterpress stock */
+  --paper-deep: #e5ddcd;
+  --text:       #241f19;
+  --text-soft:  #5d554a;
+  --gilt:       #9c7f4e;   /* leaf, hairlines only */
+  --wine:       #8e2f47;   /* bougainvillea — the one accent, used twice */
+
+  --display: "Bodoni Moda", "Didot", "Times New Roman", serif;
+  --script:  "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --label:   "Jost", "Futura", "Helvetica Neue", Arial, sans-serif;
+
+  --ease:      cubic-bezier(.22, 1, .36, 1);
+  --ease-lift: cubic-bezier(.16, .84, .28, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--script);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.is-locked { overflow: hidden; height: 100svh; }
+
+img { display: block; width: 100%; height: auto; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
+
+:focus-visible {
+  outline: 1px solid var(--gilt);
+  outline-offset: 6px;
+}
+
+/* ── Shared type ─────────────────────────────────────────── */
+
+.label {
+  margin: 0;
+  font-family: var(--label);
+  font-weight: 300;
+  font-size: clamp(.62rem, 1.5vw, .72rem);
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.quiet {
+  margin: 0;
+  font-family: var(--script);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  color: var(--text-soft);
+}
+
+.quiet--wide {
+  font-style: normal;
+  letter-spacing: .12em;
+}
+
+/* Diamond ornament — a printer's mark, not decoration for its own sake:
+   it separates the names from the date the way an engraved plate would. */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: min(240px, 60%);
+  margin-inline: auto;
+}
+.ornament i {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gilt), transparent);
+  opacity: .6;
+}
+.ornament b {
+  width: 5px; height: 5px;
+  transform: rotate(45deg);
+  background: var(--wine);
+}
+
+/* Monogram — G, hairline, N */
+.monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 16px);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 7vw, 3.6rem);
+  line-height: 1;
+  color: var(--text);
+}
+.monogram i {
+  width: 1px;
+  height: clamp(34px, 7vw, 48px);
+  background: var(--gilt);
+  opacity: .75;
+}
+.monogram--small { font-size: clamp(1.5rem, 4vw, 1.9rem); }
+.monogram--small i { height: clamp(20px, 4vw, 26px); }
+
+/* ════════════════════════════════════════════════════════════
+   1. THE OPENING — envelope on an ink field
+   ════════════════════════════════════════════════════════════ */
+
+.opening {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: clamp(64px, 12vh, 110px) 20px;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, #241e18 0%, transparent 68%),
+    var(--ink);
+}
+
+.opening__date {
+  margin: 0 0 clamp(38px, 7vh, 64px);
+  font-family: var(--label);
+  font-weight: 300;
+  font-size: clamp(.56rem, 1.9vw, .68rem);
+  letter-spacing: .46em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(239, 233, 221, .42);
+  transition: opacity .6s ease;
+}
+
+.envelope-trigger {
+  width: min(520px, 84vw);
+  cursor: pointer;
+  perspective: 1400px;
+}
+
+.envelope {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.42 / 1;
+  transform-style: preserve-3d;
+  transition: transform 1.1s var(--ease);
+}
+.envelope-trigger:hover .envelope { transform: translateY(-5px); }
+body.is-open .envelope-trigger { cursor: default; }
+body.is-open .envelope-trigger:hover .envelope { transform: none; }
+
+/* Envelope back / body */
+.envelope__body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(168deg, #f2ece1 0%, #e2d9c8 100%);
+  box-shadow:
+    0 2px 1px rgba(255,255,255,.5) inset,
+    0 40px 70px -28px rgba(0,0,0,.85);
+}
+
+/* The card that lifts out */
+.envelope__card {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 9%;
+  bottom: 9%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 16px);
+  background: linear-gradient(180deg, #fdfaf3 0%, #f4eee2 100%);
+  box-shadow: 0 -8px 20px -10px rgba(0,0,0,.35);
+  transform: translateY(0) translateZ(1px);
+  transition: transform 1.15s var(--ease-lift) .5s;
+}
+.envelope__card-mono {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 4.4vw, 2.1rem);
+  line-height: 1;
+  color: var(--text);
+}
+.envelope__card-mono i {
+  width: 1px;
+  height: clamp(20px, 4vw, 28px);
+  background: var(--gilt);
+}
+.envelope__card-label {
+  font-family: var(--label);
+  font-weight: 300;
+  font-size: clamp(.5rem, 1.5vw, .6rem);
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+/* Side + bottom flaps, drawn as one shape */
+.envelope__lining {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #eae2d2 0%, #ded4c0 100%);
+  clip-path: polygon(0 0, 50% 46%, 100% 0, 100% 100%, 0 100%);
+  box-shadow: 0 -1px 0 rgba(0,0,0,.06) inset;
+  transform: translateZ(2px);
+}
+
+/* The top flap that opens */
+.envelope__flap {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 52%;
+  background: linear-gradient(180deg, #f4eee3 0%, #e6ddcc 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform: rotateX(0deg) translateZ(3px);
+  backface-visibility: hidden;
+  transition: transform .95s var(--ease), filter .95s ease;
+}
+
+/* Wax seal — the single place the bougainvillea accent appears */
+.seal {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: clamp(44px, 9.5%, 58px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) translateZ(4px);
+  /* Poured wax, not a button: off-centre highlight, dark pooled rim,
+     and a pressed edge where the seal met the paper. */
+  background:
+    radial-gradient(circle at 37% 30%, #8b3047 0%, #74253a 42%, #521729 78%, #3d1120 100%);
+  box-shadow:
+    0 3px 7px rgba(0,0,0,.55),
+    inset 0 2px 3px rgba(255,190,200,.16),
+    inset 0 -3px 5px rgba(0,0,0,.5);
+  transition: transform .5s var(--ease), opacity .5s ease;
+}
+.seal::before {
+  content: "";
+  position: absolute;
+  inset: 13%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 205, 215, .13);
+}
+.seal__mono {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--display);
+  font-size: clamp(.7rem, 1.8vw, .85rem);
+  color: rgba(255, 240, 235, .82);
+}
+.seal__mono i {
+  width: 1px;
+  height: clamp(9px, 2vw, 12px);
+  background: rgba(255, 240, 235, .5);
+}
+
+/* Opened state */
+body.is-open .envelope__flap {
+  transform: rotateX(-172deg) translateZ(3px);
+  filter: brightness(.86);
+}
+body.is-open .seal {
+  transform: translate(-50%, -50%) translateZ(4px) scale(.8);
+  opacity: 0;
+  transition-duration: .32s;
+}
+body.is-open .envelope__card {
+  transform: translateY(-58%) translateZ(6px);
+}
+body.is-open .opening__date { opacity: 0; }
+
+.opening__prompt,
+.opening__continue {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  font-family: var(--label);
+  font-weight: 300;
+  font-size: clamp(.56rem, 1.8vw, .66rem);
+  letter-spacing: .46em;
+  text-transform: uppercase;
+  color: rgba(239, 233, 221, .55);
+}
+.opening__prompt {
+  bottom: max(38px, env(safe-area-inset-bottom, 0px));
+  transition: opacity .5s ease, transform .7s var(--ease);
+}
+.opening__prompt i {
+  width: 1px; height: 30px;
+  background: linear-gradient(180deg, rgba(156,127,78,.85), transparent);
+}
+.opening__continue {
+  bottom: max(34px, env(safe-area-inset-bottom, 0px));
+  opacity: 0;
+  transition: opacity .7s ease 1.5s;
+}
+.opening__continue i {
+  width: 1px; height: 26px;
+  background: linear-gradient(180deg, rgba(156,127,78,.85), transparent);
+  animation: drift 2.6s var(--ease) infinite;
+}
+body.is-open .opening__prompt { opacity: 0; transform: translate(-50%, 10px); }
+body.is-open .opening__continue { opacity: 1; }
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0); opacity: .9; }
+  50%      { transform: translateY(7px); opacity: .35; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   2. THE PLATE — the invitation itself
+   ════════════════════════════════════════════════════════════ */
+
+.plate {
+  position: relative;
+  background: var(--paper);
+  color: var(--text);
+  padding: clamp(52px, 8vw, 96px) clamp(18px, 5vw, 60px) clamp(64px, 9vw, 110px);
+}
+
+/* Hairline double-rule frame, the way an engraved plate is bordered */
+.plate__rule {
+  position: absolute;
+  inset: clamp(14px, 2.6vw, 30px);
+  border: 1px solid rgba(156, 127, 78, .34);
+  pointer-events: none;
+}
+.plate__rule::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(156, 127, 78, .16);
+}
+
+.leaf {
+  position: relative;
+  width: min(100%, 720px);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(56px, 9vw, 104px);
+}
+
+/* — Header — */
+.leaf__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 22px);
+  text-align: center;
+}
+
+.names {
+  margin: clamp(6px, 1.4vw, 12px) 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(4px, 1vw, 10px);
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.3rem, 8.2vw, 4.1rem);
+  line-height: 1.06;
+  letter-spacing: .005em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.names em {
+  font-family: var(--script);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 3vw, 1.45rem);
+  letter-spacing: .06em;
+  color: var(--text-soft);
+}
+
+.date {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.1rem, 3.4vw, 1.55rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* — Photographs, set as plates — */
+/* Photographs sit in a fixed 4:5 plate so the column keeps its rhythm. The
+   source files are already cropped to 4:5 on the couple, so the browser is
+   not downloading a third of an image it will only discard. */
+.plate-figure {
+  margin: 0;
+  overflow: hidden;
+  background: var(--paper-deep);
+  aspect-ratio: 4 / 5;
+}
+.plate-figure img {
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.94) contrast(1.02);
+}
+.plate-figure--venue { margin-top: clamp(30px, 5vw, 48px); }
+
+/* — Interlude — */
+.interlude {
+  text-align: center;
+}
+.interlude p {
+  margin: 0;
+  font-family: var(--script);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.25rem, 3.6vw, 1.7rem);
+  line-height: 1.62;
+  color: var(--text-soft);
+  text-wrap: balance;
+}
+
+/* — Venue — */
+.venue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(12px, 2vw, 18px);
+  text-align: center;
+}
+.venue h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2rem, 6.6vw, 3.1rem);
+  line-height: 1.08;
+  color: var(--text);
+}
+.venue .plate-figure { width: 100%; }
+
+/* — Footer — */
+.leaf__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3vw, 26px);
+  text-align: center;
+}
+
+/* ── Scroll reveals ──────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 1.1s ease, transform 1.25s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ── Small screens ───────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .plate { padding-inline: clamp(20px, 7vw, 34px); }
+  .ornament { width: min(180px, 66%); }
+}
+
+@media print {
+  body.is-locked { overflow: visible; height: auto; }
+  .opening { display: none; }
+  .reveal { opacity: 1; transform: none; }
+  .plate { background: #fff; }
+}
