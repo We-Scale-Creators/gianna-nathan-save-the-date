@@ -11,24 +11,19 @@
    glyphs this page actually uses: 28 KB for all four faces. */
 
 @font-face {
-  font-family: "Bodoni Moda";
-  src: url("/bodoni-moda-400.woff2") format("woff2");
+  font-family: "Caslon Display";
+  src: url("/caslon-display-400.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "Cormorant Garamond";
-  src: url("/cormorant-300.woff2") format("woff2");
-  font-weight: 300; font-style: normal; font-display: swap;
+  font-family: "Caslon Text";
+  src: url("/caslon-text-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "Cormorant Garamond";
-  src: url("/cormorant-300-italic.woff2") format("woff2");
-  font-weight: 300; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: "Jost";
-  src: url("/jost-300.woff2") format("woff2");
-  font-weight: 300; font-style: normal; font-display: swap;
+  font-family: "Caslon Text";
+  src: url("/caslon-text-400-italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
 }
 
 :root {
@@ -41,9 +36,9 @@
   --gilt:       #9c7f4e;   /* leaf, hairlines only */
   --wine:       #8e2f47;   /* bougainvillea — the one accent, used twice */
 
-  --display: "Bodoni Moda", "Didot", "Times New Roman", serif;
-  --script:  "Cormorant Garamond", Garamond, "Times New Roman", serif;
-  --label:   "Jost", "Futura", "Helvetica Neue", Arial, sans-serif;
+  --display: "Caslon Display", "Baskerville", "Times New Roman", serif;
+  --script:  "Caslon Text", "Baskerville", "Times New Roman", serif;
+  --label:   "Caslon Text", "Baskerville", "Times New Roman", serif;
 
   --ease:      cubic-bezier(.22, 1, .36, 1);
   --ease-lift: cubic-bezier(.16, .84, .28, 1);
@@ -79,9 +74,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .label {
   margin: 0;
   font-family: var(--label);
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(.62rem, 1.5vw, .72rem);
-  letter-spacing: .42em;
+  letter-spacing: .34em;
   text-transform: uppercase;
   color: var(--text-soft);
 }
@@ -90,14 +85,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   margin: 0;
   font-family: var(--script);
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(1rem, 2.4vw, 1.2rem);
   color: var(--text-soft);
 }
 
 .quiet--wide {
-  font-style: normal;
-  letter-spacing: .12em;
+  font-style: italic;
+  letter-spacing: .05em;
 }
 
 /* Diamond ornament — a printer's mark, not decoration for its own sake:
@@ -163,9 +158,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .opening__date {
   margin: 0 0 clamp(38px, 7vh, 64px);
   font-family: var(--label);
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(.56rem, 1.9vw, .68rem);
-  letter-spacing: .46em;
+  letter-spacing: .38em;
   text-transform: uppercase;
   text-align: center;
   color: rgba(239, 233, 221, .42);
@@ -233,9 +228,9 @@ body.is-open .envelope-trigger:hover .envelope { transform: none; }
 }
 .envelope__card-label {
   font-family: var(--label);
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(.5rem, 1.5vw, .6rem);
-  letter-spacing: .4em;
+  letter-spacing: .32em;
   text-transform: uppercase;
   color: var(--text-soft);
 }
@@ -331,9 +326,9 @@ body.is-open .opening__date { opacity: 0; }
   gap: 14px;
   margin: 0;
   font-family: var(--label);
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(.56rem, 1.8vw, .66rem);
-  letter-spacing: .46em;
+  letter-spacing: .38em;
   text-transform: uppercase;
   color: rgba(239, 233, 221, .55);
 }
@@ -369,10 +364,28 @@ body.is-open .opening__continue { opacity: 1; }
 
 .plate {
   position: relative;
-  background: var(--paper);
   color: var(--text);
+  /* Parchment, not flat stock: mottled tone from overlapping washes, a warm
+     top-to-shadow gradient, fibre grain, and burnished edges. All CSS - no
+     image, so it costs nothing to load. */
+  /* Base tone only. All mottling comes from the seamless turbulence layers
+     below - radial gradients cannot tile without visible seams. */
+  background: linear-gradient(172deg, #f6efdf 0%, #efe4cd 44%, #e8dabd 100%);
   padding: clamp(52px, 8vw, 96px) clamp(18px, 5vw, 60px) clamp(64px, 9vw, 110px);
 }
+
+.plate__fibre {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  mix-blend-mode: multiply; opacity: .42;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23m)' opacity='.75'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)' opacity='.5'/%3E%3C/svg%3E");
+  background-size: 700px 700px, 240px 240px;
+  background-repeat: repeat, repeat;
+}
+.plate__burnish {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  box-shadow: inset 0 0 160px rgba(122,96,58,.26), inset 0 0 44px rgba(110,86,52,.16);
+}
+.leaf { z-index: 2; }
 
 /* Hairline double-rule frame, the way an engraved plate is bordered */
 .plate__rule {
@@ -423,7 +436,7 @@ body.is-open .opening__continue { opacity: 1; }
 .names em {
   font-family: var(--script);
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(1.05rem, 3vw, 1.45rem);
   letter-spacing: .06em;
   color: var(--text-soft);
@@ -431,7 +444,7 @@ body.is-open .opening__continue { opacity: 1; }
 
 .date {
   margin: 0;
-  font-family: var(--display);
+  font-family: var(--script);
   font-weight: 400;
   font-size: clamp(1.1rem, 3.4vw, 1.55rem);
   letter-spacing: .2em;
@@ -464,7 +477,7 @@ body.is-open .opening__continue { opacity: 1; }
   margin: 0;
   font-family: var(--script);
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   font-size: clamp(1.25rem, 3.6vw, 1.7rem);
   line-height: 1.62;
   color: var(--text-soft);
