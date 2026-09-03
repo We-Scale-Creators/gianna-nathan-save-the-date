@@ -577,17 +577,20 @@ body.is-open .opening__continue { opacity: 1; }
   }
 
   .plate-figure {
-    /* Full-width horizontal 3:2 frame. Occupies the upper third of a
-       typical phone screen and reads as an editorial cover. */
+    /* Near-square 8:7 window (~1.143) matches the couple's reference crop:
+       shows top of door down to mid-thigh, with the plant on the left and
+       the wooden door on the right. Reads as an editorial cover without
+       cropping so tight that only the ribcage remains. */
     width: 100%;
     max-width: 480px;
     height: auto;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 8 / 7;
     justify-self: center;
   }
   .plate-figure img {
-    /* Source is 2:3 portrait; a 3:2 window trims top and bottom. 35%
-       keeps the couple's heads and torsos centred with a little headroom. */
+    /* Source is 2:3 portrait; the 8:7 window keeps most of the vertical
+       extent. 35% from the top puts the couple's faces just above centre
+       and holds the doorway architrave in the upper edge. */
     object-position: 50% 35%;
   }
   .plate-figure::after { inset: -6px; }
