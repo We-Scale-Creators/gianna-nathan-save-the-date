@@ -434,14 +434,22 @@ body.is-open .opening__continue { opacity: 1; }
   max-height: 100%;
 }
 
-.plate-figure { margin: 0; position: relative; }
+.plate-figure {
+  margin: 0; position: relative;
+  width: 100%;
+  /* Portrait 4:5 next to the type column, but capped so the whole plate
+     still fits within 100svh on landscape desktops down to ~700px tall.
+     50vh × 4/5 = 40vh photo height, leaving 60vh for the parchment/rule/type. */
+  max-width: min(50vh, 470px);
+  aspect-ratio: 4 / 5;
+  justify-self: center;
+}
 .plate-figure img {
-  display: block; width: 100%; height: auto;
-  /* The source file is a tall portrait; the crop is done here so the asset
-     itself stays untouched. 36% keeps both faces off the top edge. */
-  aspect-ratio: 3 / 2;
+  display: block; width: 100%; height: 100%;
+  /* Source is natively 2:3; the 4:5 frame trims a little from top and bottom.
+     40% keeps the couple centred with slightly more room above their heads. */
   object-fit: cover;
-  object-position: 50% 36%;
+  object-position: 50% 40%;
   box-shadow: 0 18px 40px -22px rgba(60,44,24,.55);
 }
 .plate-figure::after {
@@ -531,7 +539,7 @@ body.is-open .opening__continue { opacity: 1; }
     justify-items: center;
     gap: clamp(16px, 2.6vh, 28px);
   }
-  .plate-figure { width: min(84vw, 420px); }
+  .plate-figure { max-width: min(78vw, 380px); }
 }
 
 /* ── Scroll reveals ──────────────────────────────────────── */
