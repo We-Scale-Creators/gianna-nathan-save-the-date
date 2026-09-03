@@ -157,12 +157,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   align-items: center;
   justify-content: center;
   min-height: 100svh;
-  padding: clamp(64px, 12vh, 110px) 20px;
+  /* svh, not vh: on a phone vh is the LARGE viewport, so a vh-based pad is
+     bigger than the space actually visible while the toolbar is showing. */
+  padding: clamp(30px, 9svh, 110px) 20px;
   background: linear-gradient(168deg, var(--hero-hi) 0%, var(--hero) 48%, var(--hero-lo) 100%);
 }
 
 .opening__date {
-  margin: 0 0 clamp(38px, 7vh, 64px);
+  margin: 0 0 clamp(22px, 5.5svh, 64px);
   font-family: var(--display);
   font-weight: 500;
   font-size: clamp(1.1rem, 3.6vw, 1.6rem);
@@ -174,7 +176,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 .envelope-trigger {
-  width: min(520px, 84vw);
+  /* Capped on BOTH axes. The envelope is 1.42:1, so an 84vw envelope on a
+     phone held sideways stood 366px tall inside a 390px screen and ran into
+     the "Open" prompt. 62svh keeps its height under ~44% of the screen. */
+  width: min(520px, 84vw, 62svh);
   cursor: pointer;
 }
 
@@ -379,6 +384,19 @@ body.is-open .opening__continue { opacity: 1; }
   50%      { transform: translateY(7px); opacity: .35; }
 }
 
+/* Short viewports — a phone held sideways, or a small laptop. The envelope
+   and the prompt were competing for the same 390px of height. */
+@media (max-height: 520px) {
+  .opening { padding: clamp(18px, 5svh, 40px) 20px; }
+  .opening__date { margin-bottom: clamp(14px, 3.4svh, 26px); }
+  .envelope-trigger { width: min(520px, 84vw, 52svh); }
+  .opening__prompt { bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
+  .opening__continue { bottom: max(10px, env(safe-area-inset-bottom, 0px)); }
+  .opening__prompt, .opening__continue { gap: 7px; }
+  .opening__prompt i { height: 15px; }
+  .opening__continue i { height: 13px; }
+}
+
 /* ════════════════════════════════════════════════════════════
    2. THE PLATE — the invitation itself
    One screen, landscape. Everything the guest needs is visible
@@ -387,11 +405,10 @@ body.is-open .opening__continue { opacity: 1; }
 
 .plate {
   position: relative;
-  height: 100svh;
-  overflow: hidden;
+  min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: clamp(20px, 3.4vh, 42px) clamp(20px, 3.6vw, 64px);
+  padding: clamp(20px, 3.4svh, 42px) clamp(20px, 3.6vw, 64px);
   color: var(--text);
   /* Parchment, not flat stock: a warm top-to-shadow wash under fibre grain
      and burnished edges. All CSS — no image, so it costs nothing. */
@@ -413,7 +430,7 @@ body.is-open .opening__continue { opacity: 1; }
 /* Engraved double border, inset from the trim like a printed plate */
 .plate__rule {
   position: absolute; z-index: 2; pointer-events: none;
-  inset: clamp(14px, 2.2vh, 26px) clamp(14px, 1.7vw, 30px);
+  inset: clamp(14px, 2.2svh, 26px) clamp(14px, 1.7vw, 30px);
   border: 1px solid rgba(140,112,68,.52);
 }
 .plate__rule::after {
@@ -439,8 +456,8 @@ body.is-open .opening__continue { opacity: 1; }
   width: 100%;
   /* Portrait 4:5 next to the type column, but capped so the whole plate
      still fits within 100svh on landscape desktops down to ~700px tall.
-     50vh × 4/5 = 40vh photo height, leaving 60vh for the parchment/rule/type. */
-  max-width: min(50vh, 470px);
+     50svh × 4/5 = 40svh photo height, leaving 60svh for the parchment/rule/type. */
+  max-width: min(50svh, 470px);
   aspect-ratio: 4 / 5;
   justify-self: center;
 }
@@ -470,25 +487,25 @@ body.is-open .opening__continue { opacity: 1; }
    one-screen landscape plate is vertical, so height is what must govern. */
 .leaf__type .monogram {
   gap: clamp(9px, 1.1vw, 15px);
-  font-size: clamp(1.9rem, 3.9vh, 3rem);
+  font-size: clamp(1.9rem, 3.9svh, 3rem);
 }
-.leaf__type .monogram i { height: clamp(22px, 3vh, 34px); }
+.leaf__type .monogram i { height: clamp(22px, 3svh, 34px); }
 
 .leaf__type .label {
-  margin: clamp(12px, 2.2vh, 22px) 0 0;
-  font-size: clamp(.62rem, 1.3vh, .78rem);
+  margin: clamp(12px, 2.2svh, 22px) 0 0;
+  font-size: clamp(.62rem, 1.3svh, .78rem);
   letter-spacing: .42em;
 }
 .leaf__type .quiet {
-  margin: clamp(10px, 1.8vh, 18px) 0 0;
-  font-size: clamp(.95rem, 1.9vh, 1.15rem);
+  margin: clamp(10px, 1.8svh, 18px) 0 0;
+  font-size: clamp(.95rem, 1.9svh, 1.15rem);
 }
 
 .names {
-  margin: clamp(6px, 1.2vh, 12px) 0 0;
+  margin: clamp(6px, 1.2svh, 12px) 0 0;
   font-family: var(--display);
   font-weight: 400;
-  font-size: clamp(2.15rem, 6.4vh, 4.5rem);
+  font-size: clamp(2.15rem, 6.4svh, 4.5rem);
   line-height: 1.1;
   letter-spacing: .005em;
 }
@@ -496,50 +513,109 @@ body.is-open .opening__continue { opacity: 1; }
   display: block;
   font-family: var(--script);
   font-style: italic;
-  font-size: clamp(.95rem, 1.9vh, 1.2rem);
+  font-size: clamp(.95rem, 1.9svh, 1.2rem);
   color: var(--text-soft);
-  margin: clamp(2px, .5vh, 6px) 0;
+  margin: clamp(2px, .5svh, 6px) 0;
   letter-spacing: .02em;
 }
 
 .leaf__type .ornament {
   width: min(420px, 86%);
-  margin: clamp(16px, 2.9vh, 30px) auto 0;
+  margin: clamp(16px, 2.9svh, 30px) auto 0;
 }
 
 .date {
-  margin: clamp(12px, 2.2vh, 22px) 0 0;
-  font-size: clamp(.98rem, 2.4vh, 1.42rem);
+  margin: clamp(12px, 2.2svh, 22px) 0 0;
+  font-size: clamp(.98rem, 2.4svh, 1.42rem);
   letter-spacing: .24em;
   text-transform: uppercase;
 }
 
 .leaf__venue {
-  margin: clamp(8px, 1.4vh, 14px) 0 0;
+  margin: clamp(8px, 1.4svh, 14px) 0 0;
   font-style: italic;
-  font-size: clamp(1rem, 2.1vh, 1.3rem);
+  font-size: clamp(1rem, 2.1svh, 1.3rem);
   color: var(--text-soft);
   letter-spacing: .04em;
 }
 
 .leaf__foot {
-  margin: clamp(18px, 3.2vh, 34px) 0 0;
+  margin: clamp(18px, 3.2svh, 34px) 0 0;
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(.78rem, 1.6vh, 1rem);
+  font-size: clamp(.78rem, 1.6svh, 1rem);
   letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--text);
+  /* Long enough to wrap on a phone; balance it so it never leaves a
+     single orphaned word on the second line. */
+  text-wrap: balance;
 }
 
-/* Portrait screens: stack, and still fit one screen. */
+/* ── Portrait screens (phones) ────────────────────────────
+   Everything here is sized off svh, and the photograph is capped by
+   HEIGHT rather than width: on a phone the scarce axis is vertical, and
+   a width-capped 4:5 frame was eating 55% of the screen and pushing the
+   closing line off the bottom. Type also takes a vw ceiling via min(),
+   so the names can never run wider than the screen. */
 @media (max-aspect-ratio: 1 / 1) {
+  .plate { padding: clamp(16px, 2.6svh, 30px) clamp(18px, 5vw, 34px); }
+
+  .plate__rule { inset: clamp(10px, 1.7svh, 18px) clamp(10px, 3vw, 18px); }
+  .plate__rule::after { inset: 6px; }
+
   .leaf {
     grid-template-columns: 1fr;
     justify-items: center;
-    gap: clamp(16px, 2.6vh, 28px);
+    gap: clamp(14px, 2.4svh, 24px);
   }
-  .plate-figure { max-width: min(78vw, 380px); }
+
+  .plate-figure {
+    width: auto;
+    max-width: min(66vw, 320px);
+    height: min(29svh, 320px);
+    aspect-ratio: 4 / 5;
+  }
+  .plate-figure::after { inset: -7px; }
+
+  .leaf__type .monogram { font-size: min(7vw, 3.9svh); }
+  .leaf__type .monogram i { height: min(5vw, 2.8svh); }
+
+  .leaf__type .label {
+    margin-top: clamp(9px, 1.7svh, 16px);
+    font-size: min(3vw, 1.4svh);
+    letter-spacing: .34em;
+  }
+  .leaf__type .quiet {
+    margin-top: clamp(7px, 1.3svh, 13px);
+    font-size: min(4.4vw, 2.15svh);
+  }
+
+  .names { font-size: min(13.4vw, 6.2svh); }
+  .names em { font-size: min(4.2vw, 1.95svh); margin: 2px 0; }
+
+  .leaf__type .ornament {
+    width: min(300px, 76%);
+    margin-top: clamp(11px, 2svh, 20px);
+  }
+
+  .date {
+    margin-top: clamp(9px, 1.7svh, 17px);
+    font-size: min(4.6vw, 2.4svh);
+    letter-spacing: .2em;
+  }
+  .leaf__venue {
+    margin-top: clamp(6px, 1.1svh, 11px);
+    font-size: min(4.4vw, 2.2svh);
+  }
+  .leaf__foot {
+    margin-top: clamp(12px, 2.4svh, 24px);
+    font-size: min(3.4vw, 1.65svh);
+    letter-spacing: .18em;
+    /* Forces the wrap near the middle instead of orphaning "follow" on
+       its own line; desktop keeps it on one line and is untouched. */
+    max-width: 27ch;
+  }
 }
 
 /* ── Scroll reveals ──────────────────────────────────────── */
