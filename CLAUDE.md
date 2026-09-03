@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Static save-the-date for Gianna Gracie & Nathan Robert — September 25, 2027,
+Static save-the-date for Gianna Grace & Nathan Robert — September 25, 2027,
 Villa Siena, Gilbert AZ. Black-tie. Live at
 https://gianna-nathan-save-the-date-eta.vercel.app, auto-deploys from `main`.
 
@@ -48,7 +48,7 @@ Three families is the ceiling.
 
 - **Bodoni Moda 400** (`--display`) — display: names, date, venue name, monograms, envelope card.
 - **Cormorant Garamond 300 / italic** (`--script`) — connective and quiet copy, mostly italic (`and`, "for the wedding of", the interlude).
-- **Jost 300** (`--label`) uppercase at `letter-spacing: .42em` — engraved labels ("Save the Date", "The Location", "Formal invitation to follow").
+- **Jost 300** (`--label`) uppercase at `letter-spacing: .42em` — engraved labels ("Save the Date", "The Location", "Formal invitation and details to follow").
 
 Do not introduce a fourth family. Reuse `.label`, `.quiet` (and `.quiet--wide`
 for tracked non-italic), rather than declaring parallel styles.
