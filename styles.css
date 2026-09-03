@@ -169,7 +169,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   letter-spacing: .38em;
   text-transform: uppercase;
   text-align: center;
-  color: rgba(239, 233, 221, .42);
+  color: var(--text-soft);
   transition: opacity .6s ease;
 }
 
@@ -349,7 +349,7 @@ body.is-open .opening__date { opacity: 0; }
   font-size: clamp(.56rem, 1.8vw, .66rem);
   letter-spacing: .38em;
   text-transform: uppercase;
-  color: rgba(239, 233, 221, .55);
+  color: var(--text-soft);
 }
 .opening__prompt {
   bottom: max(38px, env(safe-area-inset-bottom, 0px));
