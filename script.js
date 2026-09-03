@@ -3,6 +3,7 @@
 
   const body = document.body;
   const trigger = document.getElementById('openEnvelope');
+  const prompt = document.getElementById('openingPrompt');
   const invitation = document.getElementById('invitation');
   const reveals = Array.from(document.querySelectorAll('.reveal'));
 
@@ -44,6 +45,7 @@
     body.classList.add('is-open');
     trigger.setAttribute('aria-expanded', 'true');
     trigger.disabled = true;
+    if (prompt) prompt.disabled = true;
 
     const unlockAfter = reduceMotion ? 20 : 1250;
     const scrollAfter = reduceMotion ? 40 : 1650;
@@ -59,6 +61,7 @@
 
   trigger.setAttribute('aria-expanded', 'false');
   trigger.addEventListener('click', open);
+  if (prompt) prompt.addEventListener('click', open);
 
   /* Safety net: if anything above throws or the click never lands, don't
      leave a guest stranded on a locked screen. */
