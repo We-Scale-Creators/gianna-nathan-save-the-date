@@ -553,30 +553,46 @@ body.is-open .opening__continue { opacity: 1; }
 }
 
 /* ── Portrait screens (phones) ────────────────────────────
-   Everything here is sized off svh, and the photograph is capped by
-   HEIGHT rather than width: on a phone the scarce axis is vertical, and
-   a width-capped 4:5 frame was eating 55% of the screen and pushing the
-   closing line off the bottom. Type also takes a vw ceiling via min(),
-   so the names can never run wider than the screen. */
+   Photo becomes an editorial 3:2 cover across the top of the plate, and
+   type flows below. Content is pinned to the TOP of the plate (not the
+   centre) so on tall phones the empty space sits at the bottom where a
+   reader expects it, and `.leaf`'s desktop max-height cap is released so
+   nothing can be silently trapped above the fold. */
 @media (max-aspect-ratio: 1 / 1) {
-  .plate { padding: clamp(16px, 2.6svh, 30px) clamp(18px, 5vw, 34px); }
+  .plate {
+    padding: clamp(14px, 2.4svh, 26px) clamp(18px, 5vw, 34px);
+    align-content: start;
+    justify-items: center;
+  }
 
   .plate__rule { inset: clamp(10px, 1.7svh, 18px) clamp(10px, 3vw, 18px); }
   .plate__rule::after { inset: 6px; }
 
   .leaf {
     grid-template-columns: 1fr;
-    justify-items: center;
-    gap: clamp(14px, 2.4svh, 24px);
+    justify-items: stretch;
+    max-height: none;
+    width: 100%;
+    gap: clamp(16px, 2.6svh, 26px);
   }
 
   .plate-figure {
-    width: auto;
-    max-width: min(66vw, 320px);
-    height: min(29svh, 320px);
-    aspect-ratio: 4 / 5;
+    /* Full-width horizontal 3:2 frame. Occupies the upper third of a
+       typical phone screen and reads as an editorial cover. */
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    justify-self: center;
   }
-  .plate-figure::after { inset: -7px; }
+  .plate-figure img {
+    /* Source is 2:3 portrait; a 3:2 window trims top and bottom. 35%
+       keeps the couple's heads and torsos centred with a little headroom. */
+    object-position: 50% 35%;
+  }
+  .plate-figure::after { inset: -6px; }
+
+  .leaf__type { text-align: center; width: 100%; }
 
   .leaf__type .monogram { font-size: min(7vw, 3.9svh); }
   .leaf__type .monogram i { height: min(5vw, 2.8svh); }
@@ -591,30 +607,32 @@ body.is-open .opening__continue { opacity: 1; }
     font-size: min(4.4vw, 2.15svh);
   }
 
-  .names { font-size: min(13.4vw, 6.2svh); }
+  /* Names are capped in vw so "Nathan Robert" never exceeds the column
+     on a 375px phone; svh cap keeps them from towering on tall viewports. */
+  .names { font-size: min(11.4vw, 5.4svh); }
   .names em { font-size: min(4.2vw, 1.95svh); margin: 2px 0; }
 
   .leaf__type .ornament {
-    width: min(300px, 76%);
+    width: min(280px, 72%);
     margin-top: clamp(11px, 2svh, 20px);
   }
 
   .date {
     margin-top: clamp(9px, 1.7svh, 17px);
-    font-size: min(4.6vw, 2.4svh);
+    font-size: min(4.4vw, 2.3svh);
     letter-spacing: .2em;
   }
   .leaf__venue {
     margin-top: clamp(6px, 1.1svh, 11px);
-    font-size: min(4.4vw, 2.2svh);
+    font-size: min(4.2vw, 2svh);
   }
   .leaf__foot {
-    margin-top: clamp(12px, 2.4svh, 24px);
-    font-size: min(3.4vw, 1.65svh);
+    margin-top: clamp(14px, 2.6svh, 24px);
+    font-size: min(3.6vw, 1.7svh);
     letter-spacing: .18em;
-    /* Forces the wrap near the middle instead of orphaning "follow" on
-       its own line; desktop keeps it on one line and is untouched. */
-    max-width: 27ch;
+    /* Balanced wrap so the closing line breaks cleanly instead of
+       stranding "follow" on its own row. */
+    max-width: 28ch;
   }
 }
 
