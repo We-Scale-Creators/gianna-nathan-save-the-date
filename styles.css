@@ -601,35 +601,55 @@ body.is-open .opening__continue { opacity: 1; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* space-around fills remaining vertical space by distributing gaps
-       proportionally: tight on iPhone SE, opens up on iPhone 14 Plus. */
-    justify-content: space-around;
+    /* Centre the type block in the remaining vertical space. Blank space
+       (if any) is distributed symmetrically above and below — reads as
+       intentional margin, not as clipped content at the fold. Individual
+       item spacing comes from margin-top, preserving the natural rhythm
+       of a wedding invitation (tight names/em/name, breath before date). */
+    justify-content: center;
     flex: 1 1 auto;
     width: 100%;
     text-align: center;
-    padding-top: clamp(14px, 2.4svh, 22px);
   }
 
-  /* Margins are zeroed because the flex distribution handles vertical
-     rhythm now — leaving both would double-space the stack. */
-  .leaf__type .monogram { margin: 0; font-size: min(7vw, 4.2svh); }
-  .leaf__type .monogram i { height: min(5vw, 3svh); }
-
-  .leaf__type .label { margin: 0; font-size: min(3vw, 1.5svh); letter-spacing: .34em; }
-  .leaf__type .quiet { margin: 0; font-size: min(4.4vw, 2.3svh); }
-
-  /* Names cap in vw so "Nathan Robert" never overflows a 375px phone;
-     svh cap keeps them from towering on tall viewports. */
-  .names { margin: 0; font-size: min(11.4vw, 5.6svh); }
-  .names em { margin: 3px 0; font-size: min(4.2vw, 2svh); }
-
-  .leaf__type .ornament { margin: 0; width: min(280px, 72%); }
-
-  .date { margin: 0; font-size: min(4.6vw, 2.5svh); letter-spacing: .2em; }
-  .leaf__venue { margin: 0; font-size: min(4.2vw, 2.1svh); }
-  .leaf__foot {
+  .leaf__type .label {
     margin: 0;
-    font-size: min(3.6vw, 1.8svh);
+    font-size: min(3.4vw, 1.6svh);
+    letter-spacing: .34em;
+  }
+  .leaf__type .quiet {
+    margin: clamp(9px, 1.6svh, 16px) 0 0;
+    font-size: min(4.6vw, 2.4svh);
+  }
+
+  /* Names cap in vw so "Gianna Sholes" never overflows a 375px phone;
+     svh cap keeps them from towering on tall viewports. */
+  .names {
+    margin: clamp(11px, 2svh, 20px) 0 0;
+    font-size: min(11.6vw, 5.8svh);
+  }
+  .names em {
+    margin: clamp(3px, .6svh, 7px) 0;
+    font-size: min(4.2vw, 2svh);
+  }
+
+  .leaf__type .ornament {
+    margin: clamp(15px, 2.6svh, 26px) 0 0;
+    width: min(280px, 72%);
+  }
+
+  .date {
+    margin: clamp(13px, 2.2svh, 22px) 0 0;
+    font-size: min(4.8vw, 2.6svh);
+    letter-spacing: .2em;
+  }
+  .leaf__venue {
+    margin: clamp(7px, 1.2svh, 12px) 0 0;
+    font-size: min(4.4vw, 2.2svh);
+  }
+  .leaf__foot {
+    margin: clamp(17px, 2.9svh, 30px) 0 0;
+    font-size: min(3.8vw, 1.9svh);
     letter-spacing: .18em;
     /* Balanced wrap so the closing line breaks cleanly instead of
        stranding "follow" on its own row. */

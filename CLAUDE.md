@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Static save-the-date for Gianna Grace & Nathan Robert — September 25, 2027,
+Static save-the-date for Gianna Sholes & Nathan Sroor — September 25, 2027,
 Villa Siena, Gilbert AZ. Black-tie. Live at
 https://gianna-nathan-save-the-date-eta.vercel.app, auto-deploys from `main`.
 
