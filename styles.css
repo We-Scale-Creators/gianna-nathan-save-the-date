@@ -67,7 +67,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-body.is-locked { overflow: hidden; height: 100svh; }
+/* Hard lock: position:fixed pins body to the viewport on iOS so the rubber-
+   band scroll can't reveal the invitation below, dvh matches the CURRENT
+   visible area (adapts as the URL bar shows/hides — svh alone was smaller
+   than the actual visible viewport when the URL bar had auto-hidden, and
+   the invitation top would peek through the gap). */
+body.is-locked {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  touch-action: none;
+  overscroll-behavior: none;
+}
 
 img { display: block; width: 100%; height: auto; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
@@ -156,9 +169,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100svh;
-  /* svh, not vh: on a phone vh is the LARGE viewport, so a vh-based pad is
-     bigger than the space actually visible while the toolbar is showing. */
+  /* dvh matches the current visible viewport (adapts as the URL bar shows/
+     hides) so the hero always exactly fills what the guest sees — no gap
+     at the bottom for the invitation to peek through. vh is a fallback. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* svh for padding: shortest viewport keeps the pad reasonable when the
+     URL bar is visible; the min-height above handles filling. */
   padding: clamp(30px, 9svh, 110px) 20px;
   background: linear-gradient(168deg, var(--hero-hi) 0%, var(--hero) 48%, var(--hero-lo) 100%);
 }
