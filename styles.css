@@ -594,23 +594,24 @@ body.is-open .opening__continue { opacity: 1; }
     width: 100%;
     max-width: 480px;
     max-height: none;
-    gap: 0;
+    /* Explicit gap so "Save the Date" doesn't butt up against the photo. */
+    gap: clamp(22px, 3.6svh, 38px);
   }
 
   .plate-figure {
-    /* Near-square 8:7 window (~1.143) matches the couple's reference crop:
-       top of door down to mid-thigh, plant left, wooden door right. */
+    /* Slightly less tall than 8:7 (6:5 = 1.2) so the type block has real
+       breathing room below, without shrinking the photo's width. */
     width: 100%;
     max-width: none;
-    aspect-ratio: 8 / 7;
+    aspect-ratio: 6 / 5;
     flex: 0 0 auto;
     justify-self: center;
   }
   .plate-figure img {
-    /* Source is 2:3 portrait; the 8:7 window keeps most of the vertical
-       extent. 35% from the top puts the couple's faces just above centre
-       and holds the doorway architrave in the upper edge. */
-    object-position: 50% 35%;
+    /* Y=15% shifts the visible window UP into the source so Nathan's hair
+       isn't clipped at the top edge (source has heads sitting close to the
+       top). Trades some floor/leg area at the bottom, which is fine. */
+    object-position: 50% 15%;
   }
   .plate-figure::after { inset: -6px; }
 
